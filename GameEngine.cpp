@@ -1,5 +1,6 @@
-#include <iostream>
-using namespace std;
+#include "GameEngine.h"
+
+/*
 static const int ROWS = 10;
 static const int COLUMNS = 11;
 static int transitionTable[ROWS][COLUMNS] = {
@@ -14,13 +15,8 @@ static int transitionTable[ROWS][COLUMNS] = {
   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9 },
   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 };
+*/
 
-int main() {
-    for (int r = 0; r < ROWS; r++) {
-        for (int c = 0; c < COLUMNS; c++) {
-            cout << transitionTable[r][c] << " ";
-        }
-        cout << "\n";
-    }
-    return 0;
+bool GameEngine::validate(std::string command) {
+    return false;
 }
