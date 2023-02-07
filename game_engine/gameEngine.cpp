@@ -2,9 +2,7 @@
 #include <iostream>
 #include <string>
 
-static const int ROWS = 10;
-static const int COLUMNS = 12;
-static int transitionTable[ROWS][COLUMNS] = {
+static int transitionTable[10][12] = {
   // load_map, validate_map, add_player, assign_countries, issue_order, end_issue_orders,
   //          exec_order, end_exec_orders, win, play, end, error
   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Error
