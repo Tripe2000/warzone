@@ -74,11 +74,6 @@ int commandIndex(std::string command) {
   else return ERROR;
 }
 
-// Default constructor
-GameEngine::GameEngine() {
-  currentState = new int(START_STATE);
-}
-
 // Return the current state as a string
 std::string GameEngine::getCurrentState() const {
   if(*currentState == START_STATE) return "Start";
@@ -167,4 +162,32 @@ bool GameEngine::executeCommand(int cmd) {
       std::cout << "Invalid command, nothing happened" << std::endl;
       return false;
   }
+}
+
+// Default constructor
+GameEngine::GameEngine() {
+  currentState = new int(START_STATE);
+}
+
+// Copy constructor
+GameEngine::GameEngine (const GameEngine &obj) {
+  currentState = new int;
+  *currentState = *obj.currentState;
+}
+
+// Assignment operator
+GameEngine& GameEngine::operator =(const GameEngine &obj) { 
+  currentState = obj.currentState;
+}
+
+// Stream insertion operator
+std::ostream& operator <<(std::ostream &output, const GameEngine &obj) { 
+  output << "Current state: " << obj.getCurrentState() << std::endl;
+  return output;            
+}
+
+// Destructor
+GameEngine::~GameEngine() {
+  currentState = NULL;
+  delete currentState;
 }
