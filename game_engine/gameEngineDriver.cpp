@@ -16,7 +16,7 @@ int main() {
         if(input == "exit") break;
 
         // Attempt state change
-        possible = engine.execCommand(input);
+        possible = engine.transitionState(input);
 
         // Print if command was rejected
         if(!possible) std::cout << "Rejected command";

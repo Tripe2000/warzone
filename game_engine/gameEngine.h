@@ -8,6 +8,6 @@ class Engine {
 
     public:
     Engine();
-    bool execCommand(std::string command);
+    bool transitionState(std::string command);
     std::string getCurrentState() const;
 };
