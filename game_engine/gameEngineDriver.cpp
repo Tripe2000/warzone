@@ -8,7 +8,7 @@ int main() {
 
     while (true) {
         std::cout << "Current state: " << engine.getCurrentState() << std::endl;
-        std::cout << "Enterg command: ";
+        std::cout << "Enter command: ";
 
         // Get input, exit if input is "exit"
         std::cin >> input;

@@ -5,16 +5,18 @@
 static const int ROWS = 10;
 static const int COLUMNS = 12;
 static int transitionTable[ROWS][COLUMNS] = {
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 6, 7, 0, 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 7, 5, 8, 0, 0, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9, 0 },
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+  // load_map, validate_map, add_player, assign_countries, issue_order, end_issue_orders,
+  //          exec_order, end_exec_orders, win, play, end, error
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Error
+  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Start
+  { 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Map Loaded
+  { 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Map Validated
+  { 0, 0, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0 },   // Players Added
+  { 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0 },   // Assign Reinforcements
+  { 0, 0, 0, 0, 6, 7, 0, 0, 0, 0, 0, 0 },   // Issue Orders
+  { 0, 0, 0, 0, 0, 0, 7, 5, 8, 0, 0, 0 },   // Execute Orders
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9, 0 },   // Win
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }    // End
 };
 
 // Utility function to turn the input to lower case
