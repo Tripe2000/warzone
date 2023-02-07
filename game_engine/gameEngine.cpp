@@ -178,6 +178,7 @@ GameEngine::GameEngine (const GameEngine &obj) {
 // Assignment operator
 GameEngine& GameEngine::operator =(const GameEngine &obj) { 
   currentState = obj.currentState;
+  return *this;
 }
 
 // Stream insertion operator
@@ -188,6 +189,6 @@ std::ostream& operator <<(std::ostream &output, const GameEngine &obj) {
 
 // Destructor
 GameEngine::~GameEngine() {
-  currentState = NULL;
   delete currentState;
+  currentState = NULL;
 }

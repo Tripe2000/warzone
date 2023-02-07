@@ -8,7 +8,7 @@ int main() {
 
     while (true) {
         // Print current state and request next command
-        std::cout << "Current state: " << gameEngine.getCurrentState() << std::endl;
+        std::cout << gameEngine;
         std::cout << "Enter command: ";
         std::cin >> input;
 
