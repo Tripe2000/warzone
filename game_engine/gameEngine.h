@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
 
-class Engine {
+class GameEngine {
     private:
     int *currentState;
     bool executeCommand(int cmd);
 
     public:
-    Engine();
+    GameEngine();
     bool transitionState(std::string command);
     std::string getCurrentState() const;
 };

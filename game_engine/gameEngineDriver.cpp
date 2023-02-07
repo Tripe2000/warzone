@@ -2,13 +2,13 @@
 #include <iostream>
 
 int main() {
-    Engine engine = Engine();
+    GameEngine gameEngine = GameEngine();
     std::string input = "";
     bool possible = true;
 
     while (true) {
         // Print current state and request next command
-        std::cout << "Current state: " << engine.getCurrentState() << std::endl;
+        std::cout << "Current state: " << gameEngine.getCurrentState() << std::endl;
         std::cout << "Enter command: ";
         std::cin >> input;
 
@@ -16,7 +16,7 @@ int main() {
         if(input == "exit") break;
 
         // Attempt state change
-        possible = engine.transitionState(input);
+        possible = gameEngine.transitionState(input);
 
         // Print if command was rejected
         if(!possible) std::cout << "Rejected command";

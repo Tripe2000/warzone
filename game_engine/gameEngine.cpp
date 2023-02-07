@@ -75,12 +75,12 @@ int commandIndex(std::string command) {
 }
 
 // Default constructor
-Engine::Engine() {
+GameEngine::GameEngine() {
   currentState = new int(START_STATE);
 }
 
-// Return the current state
-std::string Engine::getCurrentState() const {
+// Return the current state as a string
+std::string GameEngine::getCurrentState() const {
   if(*currentState == START_STATE) return "Start";
   else if(*currentState == MAP_LOADED_STATE) return "Map Loaded";
   else if(*currentState == MAP_VALIDATED_STATE) return "Map Validated";
@@ -94,7 +94,7 @@ std::string Engine::getCurrentState() const {
 }
 
 // Execute the given command if valid from the current state
-bool Engine::transitionState(std::string command) {
+bool GameEngine::transitionState(std::string command) {
   // Get transition we are attempting to make from the table
   int cmd = commandIndex(command);
   int attemptedTransition = transitionTable[*currentState][cmd];
@@ -114,7 +114,7 @@ bool Engine::transitionState(std::string command) {
 }
 
 // Run the given command
-bool Engine::executeCommand(int cmd) {
+bool GameEngine::executeCommand(int cmd) {
   std::cout << "Running command: ";
 
   // MISSING: Add the actual execution of the given command instead of just printing it
