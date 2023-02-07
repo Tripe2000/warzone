@@ -4,15 +4,21 @@
 int main() {
     std::string input = "";
     bool possible = true;
+
     while (true) {
         std::cout << "Current state: " << getCurrentState() << std::endl;
-        std::cout << "Enter next command: ";
+        std::cout << "Enter command: ";
+
+        // Get input, exit if input is "exit"
         std::cin >> input;
-        possible = execCommand(input);
         if(input == "exit") break;
-        std::cout << "Valid: ";
-        if(possible) std::cout << "True";
-        else std::cout << "False";
+
+        // Attempt state change, get result
+        possible = execCommand(input);
+
+        if(possible) std::cout << "Accepted";
+        else std::cout << "Rejected command";
+
         std::cout << std::endl << std::endl << std::endl;
     }
     
