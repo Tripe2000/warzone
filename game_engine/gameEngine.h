@@ -1,5 +1,12 @@
 #pragma once
 #include <string>
 
-bool execCommand(std::string command);
-std::string getCurrentState();
+class Engine {
+    private:
+    int *currentState;
+
+    public:
+    Engine();
+    bool execCommand(std::string command);
+    std::string getCurrentState() const;
+};

@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 
-static int currentState = 1;
 static const int ROWS = 10;
 static const int COLUMNS = 12;
 static int transitionTable[ROWS][COLUMNS] = {
@@ -31,19 +30,6 @@ std::string toLower(std::string upper) {
   return lower;
 }
 
-std::string getCurrentState() {
-  if(currentState == 1) return "Start";
-  else if(currentState == 2) return "Map Loaded";
-  else if(currentState == 3) return "Map Validated";
-  else if(currentState == 4) return "Players Added";
-  else if(currentState == 5) return "Assign Reinforcements";
-  else if(currentState == 6) return "Issue Orders";
-  else if(currentState == 7) return "Execute Orders";
-  else if(currentState == 8) return "Win";
-  else if(currentState == 9) return "End";
-  else return "Error";
-}
-
 // Get the transition table column index for a given command
 int commandIndex(std::string command) {
   command = toLower(command);
@@ -62,18 +48,37 @@ int commandIndex(std::string command) {
   else return 11;
 }
 
+// Default constructor
+Engine::Engine() {
+  currentState = new int(1);
+}
+
+// Return the current state
+std::string Engine::getCurrentState() const {
+  if(*currentState == 1) return "Start";
+  else if(*currentState == 2) return "Map Loaded";
+  else if(*currentState == 3) return "Map Validated";
+  else if(*currentState == 4) return "Players Added";
+  else if(*currentState == 5) return "Assign Reinforcements";
+  else if(*currentState == 6) return "Issue Orders";
+  else if(*currentState == 7) return "Execute Orders";
+  else if(*currentState == 8) return "Win";
+  else if(*currentState == 9) return "End";
+  else return "Error";
+}
+
 // Execute the given command if valid from the current state
-bool execCommand(std::string command) {
+bool Engine::execCommand(std::string command) {
   bool possible;
 
   // Check if for the given command, the transition does not lead to the error state
-  if(transitionTable[currentState][commandIndex(command)] != 0) possible = true;
+  if(transitionTable[*currentState][commandIndex(command)] != 0) possible = true;
   else possible = false;
 
   // Change the current state if the command leads to a valid transition
   if(possible) {
     // MISSING: Add the actual execution of the given command here
-    currentState = transitionTable[currentState][commandIndex(command)];
+    *currentState = transitionTable[*currentState][commandIndex(command)];
   }
 
   return possible;
