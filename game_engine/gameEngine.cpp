@@ -71,16 +71,17 @@ std::string Engine::getCurrentState() const {
 
 // Execute the given command if valid from the current state
 bool Engine::execCommand(std::string command) {
-  bool possible;
+  int attemptedTransition = transitionTable[*currentState][commandIndex(command)];
 
   // Check if for the given command, the transition does not lead to the error state
-  if(transitionTable[*currentState][commandIndex(command)] != 0) possible = true;
+  bool possible;
+  if(attemptedTransition != 0) possible = true;
   else possible = false;
 
   // Change the current state if the command leads to a valid transition
   if(possible) {
     // MISSING: Add the actual execution of the given command here
-    *currentState = transitionTable[*currentState][commandIndex(command)];
+    *currentState = attemptedTransition;
   }
 
   return possible;
