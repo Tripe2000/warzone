@@ -107,14 +107,14 @@ bool Engine::transitionState(std::string command) {
   // If the transition does not lead to an error state, run the command
   if(possible) {
     // Change the current state if the command executes correctly
-    if(runCommand(cmd)) *currentState = attemptedTransition;
+    if(executeCommand(cmd)) *currentState = attemptedTransition;
   }
 
   return possible;
 }
 
 // Run the given command
-bool Engine::runCommand(int cmd) {
+bool Engine::executeCommand(int cmd) {
   std::cout << "Running command: ";
 
   // MISSING: Add the actual execution of the given command instead of just printing it
