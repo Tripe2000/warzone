@@ -78,8 +78,9 @@ bool Engine::execCommand(std::string command) {
   if(attemptedTransition != 0) possible = true;
   else possible = false;
 
-  // Change the current state if the command leads to a valid transition
+  // If the transition does not lead to an error state, run the command
   if(possible) {
+    // Change the current state if the command executes correctly
     if(runCommand(cmd)) *currentState = attemptedTransition;
   }
 
