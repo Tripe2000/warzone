@@ -4,6 +4,7 @@
 class Engine {
     private:
     int *currentState;
+    bool runCommand(int cmd);
 
     public:
     Engine();

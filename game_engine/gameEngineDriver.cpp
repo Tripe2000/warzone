@@ -18,9 +18,8 @@ int main() {
         // Attempt state change
         possible = engine.execCommand(input);
 
-        // Print if command was accepted
-        if(possible) std::cout << "Accepted";
-        else std::cout << "Rejected command";
+        // Print if command was rejected
+        if(!possible) std::cout << "Rejected command";
 
         // Add some extra lines
         std::cout << std::endl << std::endl << std::endl;
