@@ -24,6 +24,8 @@ int main() {
         // Add some extra lines
         std::cout << std::endl << std::endl << std::endl;
     }
+
+    gameEngine.~GameEngine();
     
     return 0;
 }
