@@ -4,7 +4,7 @@
 class GameEngine {
     private:
     int *currentState;
-    bool executeCommand(int cmd);
+    bool executeCommand(int *cmd);
 
     public:
     GameEngine();

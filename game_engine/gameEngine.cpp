@@ -28,7 +28,9 @@ static const int EXECUTE_ORDERS_STATE = 7;
 static const int WIN_STATE = 8;
 static const int END_STATE = 9;
 
-static int transitionTable[10][12] = {
+static const int ROWS = 10;
+static const int COLUMNS = 12;
+static int transitionTable[ROWS][COLUMNS] = {
   // load_map, validate_map, add_player, assign_countries, issue_order, end_issue_orders,
   //          exec_order, end_exec_orders, win, play, end, error
   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Error
@@ -57,21 +59,21 @@ std::string toLower(std::string upper) {
 }
 
 // Get the transition table column index for a given command
-int commandIndex(std::string command) {
+int* commandIndex(std::string command) {
   command = toLower(command);
 
-  if(command == "load_map") return LOAD_MAP;
-  else if(command == "validate_map") return VALIDATE_MAP;
-  else if(command == "add_player") return ADD_PLAYER;
-  else if(command == "assign_countries") return ASSIGN_COUNTRIES;
-  else if(command == "issue_order") return ISSUE_ORDER;
-  else if(command == "end_issue_orders") return END_ISSUE_ORDERS;
-  else if(command == "exec_order") return EXEC_ORDER;
-  else if(command == "end_exec_orders") return END_EXEC_ORDERS;
-  else if(command == "win") return WIN;
-  else if(command == "play") return PLAY;
-  else if(command == "end") return END;
-  else return ERROR;
+  if(command == "load_map") return new int(LOAD_MAP);
+  else if(command == "validate_map") return new int(VALIDATE_MAP);
+  else if(command == "add_player") return new int(ADD_PLAYER);
+  else if(command == "assign_countries") return new int(ASSIGN_COUNTRIES);
+  else if(command == "issue_order") return new int(ISSUE_ORDER);
+  else if(command == "end_issue_orders") return new int(END_ISSUE_ORDERS);
+  else if(command == "exec_order") return new int(EXEC_ORDER);
+  else if(command == "end_exec_orders") return new int(END_EXEC_ORDERS);
+  else if(command == "win") return new int(WIN);
+  else if(command == "play") return new int(PLAY);
+  else if(command == "end") return new int(END);
+  else return new int(ERROR);
 }
 
 // Return the current state as a string
@@ -91,8 +93,8 @@ std::string GameEngine::getCurrentState() const {
 // Execute the given command if valid from the current state
 bool GameEngine::transitionState(std::string command) {
   // Get transition we are attempting to make from the table
-  int cmd = commandIndex(command);
-  int attemptedTransition = transitionTable[*currentState][cmd];
+  int *cmd = commandIndex(command);
+  int attemptedTransition = transitionTable[*currentState][*cmd];
 
   // Check if the transition does not lead to the error state
   bool possible;
@@ -105,15 +107,17 @@ bool GameEngine::transitionState(std::string command) {
     if(executeCommand(cmd)) *currentState = attemptedTransition;
   }
 
+  // Deallocate cmd and remove dangling pointer
+  delete cmd; cmd = NULL;
   return possible;
 }
 
 // Run the given command
-bool GameEngine::executeCommand(int cmd) {
+bool GameEngine::executeCommand(int *cmd) {
   std::cout << "Running command: ";
 
   // MISSING: Add the actual execution of the given command instead of just printing it
-  switch(cmd) {
+  switch(*cmd) {
     case LOAD_MAP:
       std::cout << "Load Map" << std::endl;
       return true;
