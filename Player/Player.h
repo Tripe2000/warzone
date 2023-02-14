@@ -1,11 +1,9 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include <string>
-#include <fstream>
-#include "Orders.h"
-#include "map.h"
 #include "Cards.h"
+#include "Map.h"
+#include "Orders.h"
 using namespace std;
 
 class Player {
@@ -15,30 +13,34 @@ class Player {
 		//Copy constructor
 		Player(const Player& player);
 		//Parameterized constructor
-		Player(string* name, Hand* cardHand, vector<territory*> territories, vector<Order*> order);
+		Player(string* name, Hand* hand, vector<Territory*>* territory, vector<Order*>* order);
 		//Destructor
 		~Player();
-		//Assignment operator
-		Player& operator=(const Player& other);
-		//get name of player
-		string* getName() const;
+		//returns name of Player
+		string getName() const;
 		//toDefend method that returns a list of territories to defend
 		void toDefend() const;
-		//toAttack method that returns a list of territories to Attack
+		//toDefend method that returns a list of territories to Attack
 		void toAttack() const;
 		//issueOrder method that creates an order object and adds it to list of orders
 		void issueOrder();
-		//stream insertion operator
-		friend ostream& operator >>(ostream& outs, const Player& player);
+		//assignment operator
+		Player& operator=(const Player& other);
+		//sets name of Player
+		void setName(string* setName);
+		//stream insertion operator 
+		friend ostream& operator <<(ostream& os, const Player& other);
 
+	//all data members are pointer types
 	private:
 		//name of player
 		string* name;
 		//hand of cards of player
-		Hand* cardHand;
+		Hand* hand;
 		//territories owned by player
-		vector<territory*> territories;
+		vector<Territory*>* territory;
 		//list of orders of player
-		vector<Order*> orderList;
+		vector<Order*>* order;
 
 };
+
