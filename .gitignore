@@ -1,0 +1,8 @@
+.DS_Store
+.vscode/
+backup/
+compile.sh
+game_engine/.vscode/
+game_engine/compile.sh
+game_engine/drive
+game_engine/test.backup
