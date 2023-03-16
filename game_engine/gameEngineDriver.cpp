@@ -9,11 +9,6 @@ int main() {
     while (true) {
         // Print current state and request next command
         std::cout << gameEngine;
-        std::cout << "Enter command: ";
-        std::cin >> input;
-
-        // Exit if input is "exit"
-        if(input == "exit") break;
 
         // Attempt state change
         possible = gameEngine.transitionState(input);

@@ -2,34 +2,6 @@
 #include <iostream>
 #include <string>
 
-// Available commands/transitions
-static const int LOAD_MAP = 0;
-static const int VALIDATE_MAP = 1;
-static const int ADD_PLAYER = 2;
-static const int ASSIGN_COUNTRIES = 3;
-static const int ISSUE_ORDER = 4;
-static const int END_ISSUE_ORDERS = 5;
-static const int EXEC_ORDER = 6;
-static const int END_EXEC_ORDERS = 7;
-static const int WIN = 8;
-static const int PLAY = 9;
-static const int END = 10;
-static const int ERROR = 11;
-
-// Available states
-static const int ERROR_STATE = 0;
-static const int START_STATE = 1;
-static const int MAP_LOADED_STATE = 2;
-static const int MAP_VALIDATED_STATE = 3;
-static const int PLAYERS_ADDED_STATE = 4;
-static const int ASSIGN_REINFORCEMENTS_STATE = 5;
-static const int ISSUE_ORDERS_STATE = 6;
-static const int EXECUTE_ORDERS_STATE = 7;
-static const int WIN_STATE = 8;
-static const int END_STATE = 9;
-
-static const int ROWS = 10;
-static const int COLUMNS = 12;
 static int transitionTable[ROWS][COLUMNS] = {
   // load_map, validate_map, add_player, assign_countries, issue_order, end_issue_orders,
   //          exec_order, end_exec_orders, win, play, end, error
@@ -88,6 +60,10 @@ std::string GameEngine::getCurrentState() const {
   else if(*currentState == WIN_STATE) return "Win";
   else if(*currentState == END_STATE) return "End";
   else return "Error";
+}
+
+int GameEngine::getState() const {
+  return *(this->currentState);
 }
 
 // Execute the given command if valid from the current state
@@ -188,7 +164,7 @@ GameEngine& GameEngine::operator =(const GameEngine &obj) {
 // Stream insertion operator
 std::ostream& operator <<(std::ostream &output, const GameEngine &obj) { 
   output << "Current state: " << obj.getCurrentState() << std::endl;
-  return output;            
+  return output;        
 }
 
 // Destructor
