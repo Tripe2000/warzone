@@ -5,6 +5,8 @@ class GameEngine {
     private:
     int *currentState;
     bool executeCommand(int *cmd);
+    //By Nicolas
+    vector<Player*> playerList;
 
     public:
     GameEngine();
@@ -15,6 +17,12 @@ class GameEngine {
     std::string getCurrentState() const;
     int getState() const;
     friend std::ostream& operator <<(std::ostream &output, const GameEngine &obj);
+    
+    //By Nicolas 
+    void mainGameLoop();
+    void reinforcementPhase();
+    void issueOrdersPhase();
+    void executeOrdersPhase();
 };
 
 std::string toLower(std::string);
