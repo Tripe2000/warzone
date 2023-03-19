@@ -1,100 +1,102 @@
-#include <iostream>
-using namespace std;
 #include "Player.h"
 
 //Sets default player
-Player::Player() 
-{
-	string* name = nullptr;
-	Hand* cardHand = nullptr;
-	vector<territory*> territories;
-	vector<Order*> orderList;
+Player::Player() {
+	this->name = nullptr;
+	this->hand = nullptr;
+	this->territory = nullptr;
+	this->order = nullptr;
 }
 
-//asigns created player with name, hand of cards, territories, and list of orders
-Player::Player(string* name, Hand* cardHand, vector<territory*> territories, vector<Order*> orderList) 
-{
+// Parameterized constructor to create a new Player with attributes 
+Player::Player(string* name, Hand* hand, vector<Territory*>* territory, vector<Order*>* order) {
 	this->name = new string(*name);
-	this->cardHand = new Hand(*cardHand);
-	this->territories = territories;
-	this->orderList = orderList;
+	this->hand = new Hand(*hand);
+	this->territory = new vector<Territory*>(*territory);
+	this->order = new vector<Order*>(*order);
 }
 
-//Copy constructor
-Player::Player(const Player& player)
-{
+//Copy constructor 
+Player::Player(const Player& player) {
 	name = new string();
 	*name = *player.name;
-	
-	cardHand = new Hand();
-	*cardHand = *player.cardHand;
-	
-	territories = player.territories;
-	orderList = player.orderList;
+
+	hand = new Hand();
+	*hand = *player.hand;
+
+	territory = new vector<Territory*>;
+	*territory = *player.territory;
+
+	order = new vector<Order*>;
+	*order = *player.order;
 }
 
-//Destructor 
-Player::~Player()
-{
+//Destructor
+Player::~Player() {
 	delete name;
 	name = nullptr;
-	delete cardHand;
-	cardHand = nullptr;
-	territories.clear();
-	orderList.clear();
+	delete hand;
+	hand = nullptr;
+	delete territory;
+	territory = nullptr;
+	delete order;
+	order = nullptr;
 }
 
-string* Player::getName() const
-{
-	return name;
+//returns name of player
+string Player::getName() const{
+	return *name;
 }
 
-ostream& operator <<(ostream& os, const Player& player) 
-{
-	os << "Name: " << *(player.getName()) <<endl;
-	return os;
-}
-
-//assignment operator
-Player& Player::operator=(const Player& other)
-{
-	if (this != &other) {
-		//deallocate
-		delete name;
-		delete cardHand;
-		territories.clear();
-		orderList.clear();
-
-		//allocate
-		name = new string(*other.name);
-		cardHand = new Hand(*other.cardHand);
-		territories = other.territories;
-		orderList = other.orderList;
-	}
-	return *this;
-}
-
-//For now lists an arbitrary list of territories to attack
-void Player::toAttack() const
-{
-	for (int i = 0; i < territories.size(); i++)
-	{
-		cout << territories[i] << endl;
+//For now lists an arbitrary list of territories to attack 
+void Player::toAttack() const {
+	for (int i = 0; i < territory->size(); i++) {
+		cout << *(* territory)[i] << endl;
 	}
 }
 
 //For now lists an arbitrary list of territories to defend
-void Player::toDefend() const
-{
-	for (int i = 0; i < territories.size(); i++)
-	{
-		cout << territories[i] << endl;
+void Player::toDefend() const {
+	for (int i = 0; i < territory->size(); i++) {
+		cout << *(*territory)[i] << endl;
 	}
 }
 
-//Creates order and adds it to order list 
-void Player::issueOrder()
-{
-	Order *order = new Order();
-	orderList.push_back(order);
+//Creates an order and adds it to order list 
+void Player::issueOrder() {
+	Order* newOrder = new Order();
+	order->push_back(newOrder);
+}
+
+//assignment operator 
+Player& Player::operator=(const Player& other) {
+	if (this != &other) {
+		delete name;
+		delete hand;
+		delete territory;
+		delete order;
+
+		name = new string(*other.name);
+		hand = new Hand(*other.hand);
+		territory = new vector<Territory*>(*other.territory);
+		order = new vector<Order*>(*other.order);
+	}
+	return *this;
+}
+
+//sets name of player 
+void Player::setName(string* setName) {
+	name = setName;
+}
+
+//stream insertion operator 
+ostream& operator <<(ostream& os, const Player& other) {
+	os << "Name: " << (other.getName()) << endl;
+	os << "    Territories: " << endl;
+	for (auto territory : *(other.territory)) {
+		os << *territory << endl;
+	}
+	os << "    Hand: " << *(other.hand) << endl;
+	
+	return os;
 }
