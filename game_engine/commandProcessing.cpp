@@ -101,7 +101,7 @@ FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
 
 std::string FileLineReader::readLineFromFile() {
     std::string lineCommand;
-    getline(*input, lineCommand); 
+    std::getline(*input, lineCommand); 
     return lineCommand;
 }
 FileLineReader::~FileLineReader() {

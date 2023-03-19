@@ -1,0 +1,7 @@
+loadmap hello
+loadmap world
+validatemap
+addplayer a
+addplayer b
+gamestart
+quit

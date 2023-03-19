@@ -2,6 +2,7 @@
 #include "gameEngine.h"
 #include <list>
 #include <fstream>
+#include <iostream>
 
 class Command {
     public:
@@ -33,14 +34,16 @@ class CommandProcessor {
     private:
     GameEngine * gameEngine;
     std::list<Command> * commandList;
-    virtual std::string readCommand();
     void saveCommand(std::string);
+
+    protected:
+    virtual std::string readCommand();
 };
 
 class FileLineReader {
     public:
     FileLineReader(std::string& f) {
-        input->open(f);
+        input = new std::ifstream(f);
     };
     std::string readLineFromFile();
     ~FileLineReader();
@@ -51,8 +54,8 @@ class FileLineReader {
 
 class FileCommandProcessorAdapter: public CommandProcessor {
     public:
-    FileCommandProcessorAdapter(GameEngine * ge, FileLineReader * f): CommandProcessor(ge) { this->fileLineReader = f; };
-    std::string readCommand() { return fileLineReader->readLineFromFile(); };
+    FileCommandProcessorAdapter(GameEngine * ge, FileLineReader * f): CommandProcessor(ge), fileLineReader(f) {};
+    std::string readCommand() { std::string str = fileLineReader->readLineFromFile(); std::cout << str << std::endl; return str; };
     ~FileCommandProcessorAdapter();
 
     private:
