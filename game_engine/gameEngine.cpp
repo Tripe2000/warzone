@@ -34,14 +34,14 @@ std::string toLower(std::string upper) {
 int* commandIndex(std::string command) {
   command = toLower(command);
 
-  if(command == "load_map") return new int(LOAD_MAP);
-  else if(command == "validate_map") return new int(VALIDATE_MAP);
-  else if(command == "add_player") return new int(ADD_PLAYER);
-  else if(command == "assign_countries") return new int(ASSIGN_COUNTRIES);
-  else if(command == "issue_order") return new int(ISSUE_ORDER);
-  else if(command == "end_issue_orders") return new int(END_ISSUE_ORDERS);
-  else if(command == "exec_order") return new int(EXEC_ORDER);
-  else if(command == "end_exec_orders") return new int(END_EXEC_ORDERS);
+  if(command == "loadmap") return new int(LOAD_MAP);
+  else if(command == "validatemap") return new int(VALIDATE_MAP);
+  else if(command == "addplayer") return new int(ADD_PLAYER);
+  else if(command == "assigncountries") return new int(ASSIGN_COUNTRIES);
+  else if(command == "issueorder") return new int(ISSUE_ORDER);
+  else if(command == "endissueorders") return new int(END_ISSUE_ORDERS);
+  else if(command == "execorder") return new int(EXEC_ORDER);
+  else if(command == "endexecorders") return new int(END_EXEC_ORDERS);
   else if(command == "win") return new int(WIN);
   else if(command == "play") return new int(PLAY);
   else if(command == "end") return new int(END);

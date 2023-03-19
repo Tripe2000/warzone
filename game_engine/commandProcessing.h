@@ -5,8 +5,10 @@
 class Command {
     public:
     void saveEffect(std::string&);
-    Command(std::string&);
+    Command(std::string);
     Command(std::string, std::string);
+    std::string& getCommand() { return *command; };
+    std::string& getEffect() { return *effect; };
     ~Command();
     Command(const Command &obj);
     Command& operator =(const Command &obj);
@@ -20,36 +22,36 @@ class Command {
 class CommandProcessor {
     public:
     CommandProcessor(GameEngine*);
-    void getCommand();
+    std::string getCommand();
     virtual ~CommandProcessor();
     CommandProcessor(const CommandProcessor &obj);
     CommandProcessor& operator =(const CommandProcessor &obj);
     friend std::ostream& operator <<(std::ostream &output, const CommandProcessor &obj);
+    bool validate(std::string&);
 
     private:
     GameEngine * gameEngine;
-    std::list<Command*> * commandList;
+    std::list<Command> * commandList;
     virtual std::string readCommand();
     void saveCommand(std::string);
-    bool validate(std::string&);
-};
-
-class FileCommandProcessorAdapter: public CommandProcessor {
-    public:
-    FileCommandProcessorAdapter(FileLineReader * f) { this->fileLineReader = f; };
-    std::string readCommand() { fileLineReader->readLineFromFile(); };
-    ~FileCommandProcessorAdapter();
-
-    private:
-    FileLineReader * fileLineReader;
 };
 
 class FileLineReader {
     public:
     FileLineReader(std::string& f) { this->fileName = new std::string(f); };
-    std::string& readLineFromFile();
+    std::string readLineFromFile();
     ~FileLineReader();
 
     private:
     std::string * fileName;
+};
+
+class FileCommandProcessorAdapter: public CommandProcessor {
+    public:
+    FileCommandProcessorAdapter(GameEngine * ge, FileLineReader * f): CommandProcessor(ge) { this->fileLineReader = f; };
+    std::string readCommand() { return fileLineReader->readLineFromFile(); };
+    ~FileCommandProcessorAdapter();
+
+    private:
+    FileLineReader * fileLineReader;
 };

@@ -2,7 +2,7 @@
 #include <iostream>
 
 void Command::saveEffect(std::string& eff) { effect = new std::string(eff); }
-Command::Command(std::string& cmd) { command = new std::string(cmd); }
+Command::Command(std::string cmd) { command = new std::string(cmd); effect = new std::string(""); }
 Command::Command(std::string cmd, std::string eff) {
     command = new std::string(cmd);
     effect = new std::string(eff);
@@ -25,15 +25,22 @@ Command& Command::operator =(const Command &obj) {
     return *this;
 }
 std::ostream& operator <<(std::ostream &output, const Command &obj) {
-    output << "Command: " << obj.command << "\nEffect: " << obj.effect << std::endl;
+    output << "Command: " << *obj.command << "\nEffect: " << *obj.effect << std::endl;
     return output; 
 }
 
-CommandProcessor::CommandProcessor(GameEngine * e) { gameEngine = e; }
-void CommandProcessor::getCommand() { saveCommand(readCommand()); }
+CommandProcessor::CommandProcessor(GameEngine * e) {
+    gameEngine = e;
+    commandList = new std::list<Command>;
+}
+std::string CommandProcessor::getCommand() {
+    std::string cmd = readCommand();
+    saveCommand(cmd);
+    return cmd;
+}
 CommandProcessor::~CommandProcessor() {
     delete gameEngine;
-    while(!commandList->empty()) delete commandList->front(), commandList->pop_front();
+    commandList->clear();
     delete commandList;
     gameEngine = NULL;
     commandList = NULL;
@@ -48,12 +55,11 @@ CommandProcessor& CommandProcessor::operator =(const CommandProcessor &obj) {
     return *this;
 }
 std::ostream& operator <<(std::ostream &output, const CommandProcessor &obj) {
-    output << obj.gameEngine << "\nCommands: \n";
-    std::list<Command*>::iterator it;
-    for (it = obj.commandList->begin(); it != obj.commandList->end(); ++it){
+    output << *(obj.gameEngine) << "\nCommands: \n";
+    std::list<Command>::iterator it;
+    for(it = obj.commandList->begin(); it != obj.commandList->end(); ++it){
         std::cout << *it << "\n-----\n";
     }
-    output << std::endl;
     return output; 
 }
 std::string CommandProcessor::readCommand() {
@@ -63,11 +69,12 @@ std::string CommandProcessor::readCommand() {
     return cmdString;
 }
 void CommandProcessor::saveCommand(std::string cmdString) {
-    if(validate(cmdString)) {
-        commandList->push_back(new Command(cmdString));
-    } else {
-        commandList->push_back(new Command(cmdString, "invalid"));
+    Command * cmd = new Command(cmdString);
+    if(!validate(cmd->getCommand())) {
+        std::string * effect = new std::string("Invalid effect");
+        cmd->saveEffect(*effect);
     }
+    commandList->push_back(*cmd);
 }
 bool CommandProcessor::validate(std::string& command) {
   command = toLower(command);
@@ -79,7 +86,7 @@ bool CommandProcessor::validate(std::string& command) {
   else if(command == "quit" && state == WIN_STATE) return true;
   else {
     std::size_t pos = command.find(" ");
-    std::string argument = command.substr (0, pos);
+    command = command.substr (0, pos);
     if(command == "loadmap" && (state == START_STATE || state == MAP_LOADED_STATE)) return true;
     else if(command == "addplayer" && (state == MAP_VALIDATED_STATE || state == PLAYERS_ADDED_STATE)) return true;
   }
@@ -92,7 +99,10 @@ FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
     fileLineReader = NULL;
 }
 
-std::string& FileLineReader::readLineFromFile() {}
+std::string FileLineReader::readLineFromFile() {
+    std::string lineCommand = "hello";
+    return lineCommand;
+}
 FileLineReader::~FileLineReader() {
     delete fileName;
     fileName = NULL;
