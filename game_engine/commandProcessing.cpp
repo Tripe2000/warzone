@@ -100,10 +100,12 @@ FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
 }
 
 std::string FileLineReader::readLineFromFile() {
-    std::string lineCommand = "hello";
+    std::string lineCommand;
+    getline(*input, lineCommand); 
     return lineCommand;
 }
 FileLineReader::~FileLineReader() {
-    delete fileName;
-    fileName = NULL;
+    input->close();
+    delete input;
+    input = NULL;
 }

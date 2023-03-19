@@ -1,6 +1,7 @@
 #pragma once
 #include "gameEngine.h"
 #include <list>
+#include <fstream>
 
 class Command {
     public:
@@ -38,12 +39,14 @@ class CommandProcessor {
 
 class FileLineReader {
     public:
-    FileLineReader(std::string& f) { this->fileName = new std::string(f); };
+    FileLineReader(std::string& f) {
+        input->open(f);
+    };
     std::string readLineFromFile();
     ~FileLineReader();
 
     private:
-    std::string * fileName;
+    std::ifstream * input;
 };
 
 class FileCommandProcessorAdapter: public CommandProcessor {
