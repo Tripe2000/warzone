@@ -13,6 +13,11 @@ public:
 	void addBorders(territory* t);
 	int getNumOfBorders();
 	int getBorderID(int pos);
+	
+	//By Nicolas
+	string getTerritoryOwner() const;
+	void setTerritoryOwner(string);
+	
 	void addArmies(int numberOfArmies) { numOfArmies += numberOfArmies; }
 	void removeArmies(int numberOfArmies) { numOfArmies -= numberOfArmies; }
 	void setArmies(int numberOfArmies) { numOfArmies = numberOfArmies; }
@@ -26,6 +31,8 @@ private:
 	string name; 
 	//territoryID 1 more than its index in the <vector>
 	int ID; 
+	//By Nicolas
+	string territoryOwner;
 };
 class continent
 {
