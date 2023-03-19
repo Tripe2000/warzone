@@ -172,3 +172,72 @@ GameEngine::~GameEngine() {
   delete currentState;
   currentState = NULL;
 }
+
+//By Nicolas
+//Reinforcement phase
+void GameEngine::reinforcementPhase() {
+    for (int i = 0; i < playerList.size(); i++) {
+        int numArmies = max((playerList[i]->getTerritoryOwnedSize()/3), 3);
+        playerList[i]->setReinforcementPool(numArmies);
+    }
+    
+}
+
+//Issue order phase
+void GameEngine::issueOrdersPhase() {
+    for (int i = 0; i < playerList.size(); i++) {
+        playerList[i]->issueOrder();
+    }
+}
+
+//Execute orders phase
+void GameEngine::executeOrdersPhase() {
+
+    //
+    int maxOrders = 0;
+    for (const auto& player : playerList) {
+        maxOrders = max(maxOrders, player->getOrderSize());
+    }
+
+    //
+    for (int i = 0; i < maxOrders; i++) {
+        for (auto& player: playerList) {
+            if (i<player->getOrderSize()) {
+                Order* order = player->getOrder(i);
+                order->execute();
+            }
+        }
+    }
+}
+
+
+//Execute main game loop
+void GameEngine::mainGameLoop() {
+    bool check = true;
+
+    while (check)
+    {
+        cout << "Reinforcement Phase:" << endl;
+        reinforcementPhase();
+        issueOrdersPhase();
+        executeOrdersPhase();
+
+        for (int i = 0;i < playerList.size();i++)
+        {
+            if (playerList[i]->toDefend().size() == 195 || playerList.size() == 1)
+            {
+                cout << "Winner is " << playerList[i]->getName() << endl;
+                check = false;
+            }
+            if (playerList[i]->toDefend().size() == 0)
+            {
+                cout << playerList[i]->getName() << " is eliminated from the game." << endl;
+                playerList.erase(playerList.begin() + i);
+            }
+        }
+    }
+}
+
+void GameEngine::setPlayerList(vector<Player*>* playerList) {
+    this->playerList = *playerList;
+}
