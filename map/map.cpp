@@ -231,3 +231,16 @@ void validateContinent(Map m, int c, vector<int>& memory, int reference)
 
 	}
 }
+
+//By Nicolas
+string Territory::getTerritoryOwner() const {
+	return this->territoryOwner;
+}
+
+void Territory::setTerritoryOwner(string owner) {
+	this->territoryOwner = owner;
+}
+
+void Territory::setName(string name) {
+	this->name = name;
+}
