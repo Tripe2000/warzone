@@ -78,3 +78,5 @@ bool validate(Map m);
 void validateMap(Map m, vector<int>& memory, int reference);
 
 void validateContinent(Map m, int c, vector<int>& memory, int reference);
+
+Map readfile(string filename);
