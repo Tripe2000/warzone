@@ -1,5 +1,6 @@
 #pragma once
 #include "Orders.h"
+#include "map.h"
 #include <iostream>
 #include <algorithm>
 #include <sstream>
@@ -167,7 +168,7 @@ bool Deploy::execute()
 		cout << "Deploying " << numOfArmies << " Armies." << endl;
 		valid = true;
 
-		territory->addTroops(numOfArmies);
+		territory->addArmies(numOfArmies);
 		return true;
 	}
 	return false;
@@ -218,7 +219,7 @@ Advance& Advance ::operator = (const Adavance& advance)
 
 bool Advance::validate()
 {
-	if (current->getOwner() == getPlayer() && current->isAdjacent(next->index))
+	if (current->getOwner() == getPlayer() && current->isAdjacentTerritory(next->index))
 		return true;
 	return false;
 }
@@ -233,8 +234,8 @@ bool Advance::execute()
 			int armiesToMove = std::min((int)numOfArmies, current->numOfArmies);
 			if (armiesToMove != numOfArmies)
 				numOfArmies = armiesToMove;
-			current->removeTroops(numOfArmies);
-			next->addTroops(numOfArmies);
+			current->removeArmies(numOfArmies);
+			next->addArmies(numOfArmies);
 
 			cout << "Advancing " << numOfArmies << "Armies from " << cuurent->name << " to " << next->name << endl;
 		}
@@ -244,15 +245,15 @@ bool Advance::execute()
 			{
 				srand(time(NULL));
 				if (rand() % 10 < 6)
-					next->removeTroops(1);
+					next->removeArmies(1);
 				else if (rand() % 10 < 7)
-					current->removeTroops(1);
+					current->removeArmies(1);
 					numOfArmies--;
 			}
 			if (next->numOfArmies == 0)
 			{
 				next->setOwner(player);
-				next->addTroops(numOfArmies);
+				next->addArmies(numOfArmies);
 			}
 		}
 		return true;
@@ -308,7 +309,7 @@ return *this;
 
 bool Bomb::validate()
 {
-	if (source->isAdjacent(target->index) && course->getPlayer() && target->getOwner() != getPlayer())
+	if (source->isAdjacentTerritory(target->index) && course->getPlayer() && target->getOwner() != getPlayer())
 		return true;
 	return false;
 }
@@ -319,7 +320,7 @@ bool Bomb::execute()
 	{
 		executed = true;
 		int numDestroyed = (int)(target->numOfArmies / 2.0);
-		target->removeTroops(numDestroyed);
+		target->removeArmies(numDestroyed);
 		cout << "Bombing" << target->name << "territory, reducing 1/2 of its forces." << endl;
 		return true;
 	}
@@ -383,7 +384,7 @@ bool Blockade::execute()
 	if (validate())
 	{
 		executed = true;
-		target->addTroops(target->numOfArmies * 2);
+		target->addArmies(target->numOfArmies * 2);
 		target->setOwner(new Player("Neutral"));
 		cout << "Blockading " << target->name << " territory, double its forces, making it neutral." << endl;
 		return true;
@@ -455,8 +456,8 @@ bool Airlift::execute()
 			int armiesToMove = std::min((int)numOfArmies, current->numerOfArmies);
 			if (armiesToMove != numOfArmies)
 				numOfArmies = armiesToMove;
-			current->removeTroops(numOfArmies);
-			next->addTroops(numOfArmies);
+			current->removeArmies(numOfArmies);
+			next->addArmies(numOfArmies);
 		}
 
 		else
@@ -465,16 +466,16 @@ bool Airlift::execute()
 			{
 				srand(time(NULL));
 				if (rand() % 10 < 6)
-					next->removeTroops(1);
+					next->removeArmies(1);
 				else if (rand() % 10 < 7)
-					current->removeTroops(1);
+					current->removeArmies(1);
 				numOfArmies--;
 			}
 
 			if (next->numberOfArmies == 0)
 			{
 				next->setOwner(player);
-				next->addTroops(numOfArmies);
+				next->addArmies(numOfArmies);
 
 			}
 		}
