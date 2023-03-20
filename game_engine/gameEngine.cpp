@@ -1,6 +1,15 @@
 #include "gameEngine.h"
-#include <iostream>
+#include "map.h"
+#include "Player.h"
+#include "Cards.h"
+#include <algorithm>
+#include <fstream>
 #include <string>
+#include <vector>
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <random>
 
 static int transitionTable[ROWS][COLUMNS] = {
   // load_map, validate_map, add_player, assign_countries, issue_order, end_issue_orders,
