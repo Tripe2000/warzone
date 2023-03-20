@@ -4,47 +4,46 @@ using namespace std;
 
 int main()
 {
-	//orderlist object
-	OrderList orderListObj;
-	//types of orders
-	Deploy deploy;
-	Advance advanceTo;
-	Bomb bomb;
-	Blockade blockadeObj;
-	Airlift airliftObj;
-	Negotiate negotiateObj;
+	OrderList orders;
 
-	//set orderlist according to the order type
-	orderListObj.set_order_list(&deploy);
-	orderListObj.set_order_list(&advanceTo);
-	orderListObj.set_order_list(&bomb);
-	orderListObj.set_order_list(&blockadeObj);
-	orderListObj.set_order_list(&airliftObj);
-	orderListObj.set_order_list(&negotiateObj);
+	Deploy *deploy=new Deploy;
+	Advance *advance = new Advance;
+	Bomb *bomb = new Bomb;
+	Blockade *blockade = new Blockade;
+	Airlift *airlift = new Airlift;
+	Negotiate *negotiate = new Negotiate;
 
-	cout << "Orderlist Driver...\n" << endl;
+	orders.set_order_list(deploy);
+	orders.set_order_list(advance);
+	orders.set_order_list(bomb);
+	orders.set_order_list(blockade);
+	orders.set_order_list(airlift);
+	orders.set_order_list(negotiate);
 
-	//display orderlist
-	cout << "\n the orderlist has: " << endl;
-	for (int i = 0; i < orderListObj.get_order_list()->size(); i++) {
-		cout << "  " << orderListObj.get_order_list()->at(i)->get_type() << endl;
+
+	//print orderlist
+	cout << "\n the orderlist contains: " << endl;
+	for (int i = 0; i < orders.get_order_list()->size(); i++) {
+		cout <<"  "<< orders.get_order_list()->at(i)->get_type() << endl;
 	}
-	//delete order
-	orderListObj.delete_order(&deploy);
 
-	//display orderlist
-	cout << "\n the orderlist has: " << endl;
-	for (int i = 0; i < orderListObj.get_order_list()->size(); i++) {
-		cout << "  " << orderListObj.get_order_list()->at(i)->get_type() << endl;
+	//delete an order
+	orders.delete_order(deploy);
+
+	//print orderlist
+	cout << "\n the orderlist contains: " << endl;
+	for (int i = 0; i < orders.get_order_list()->size(); i++) {
+		cout << "  " << orders.get_order_list()->at(i)->get_type() << endl;
 	}
-	//move a order
-	orderListObj.move(0, 4);
-	//invalid order
-	orderListObj.move(0, 8);
-	
-	//display orderlist
-	cout << "\n the orderlist has: " << endl;
-	for (int i = 0; i < orderListObj.get_order_list()->size(); i++) {
-		cout << "  " << orderListObj.get_order_list()->at(i)->get_type() << endl;
+
+	//move an order
+	orders.move(0,4);
+	//orders.move(0, 5);
+	orders.move(0, 8);//invalid
+	//print orderlist
+	cout << "\n the orderlist contains: " << endl;
+	for (int i = 0; i < orders.get_order_list()->size(); i++) {
+		cout << "  " << orders.get_order_list()->at(i)->get_type() << endl;
 	}
+
 }
