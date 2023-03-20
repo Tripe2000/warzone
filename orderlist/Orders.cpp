@@ -122,13 +122,13 @@ Deploy::Deploy():Order()
 Deploy::Deploy(Player* player, Territory* territory, unsigned int numOfArmies) : Order(player)
 {
 	this->territory = territory;
-	this->numOfArmaies = numOfArmaies;
+	this->numOfArmies = numOfArmies;
 }
 
 Deploy::Deploy(const Deploy& deploy) : Order(deploy)
 {
 	this->territory = deploy.territory;
-	this->numOfArmaies = deploy.numOfArmaies;
+	this->numOfArmies = deploy.numOfArmies;
 
 }
 
@@ -142,13 +142,13 @@ Deploy& Deploy:: operator=(const Deploy& deploy)
 {
 	Order::operator=(deploy);
 	territory = deploy.territory;
-	numOfArmaies = deploy.numOfArmaies;
+	numOfArmies = deploy.numOfArmies;
 	return *this;
 }
 
 bool Deploy::validate()  
 {
-	if (territory->getOwner() == getPlayer() && this->numOfArmaies > 0)
+	if (territory->getOwner() == getPlayer() && this->numOfArmies > 0)
 		return true;
 	return false;
 }
@@ -164,10 +164,10 @@ bool Deploy::execute()
 {
 	if (validate())
 	{
-		cout << "Deploying " << numOfArmaies << " Armies." << endl;
+		cout << "Deploying " << numOfArmies << " Armies." << endl;
 		valid = true;
 
-		territory->addTroops(numOfArmaies);
+		territory->addTroops(numOfArmies);
 		return true;
 	}
 	return false;
@@ -196,7 +196,7 @@ Advance::Advance(Player* player, Territory * current, Territory * next, unsigned
 {
 	this->current = current;
 	this->next = next;
-	this->numOfArmaies = numOfArmaies;
+	this->numOfArmies = numOfArmies;
 }
 
 
@@ -212,7 +212,7 @@ Advance& Advance ::operator = (const Adavance& advance)
 	Order:: operator =(advance);
 	current = advance.current;
 	next = advance.next;
-	numOfArmaies = advance.numOfArmies;
+	numOfArmies = advance.numOfArmies;
 	return *this;
 }
 
@@ -230,13 +230,13 @@ bool Advance::execute()
 		executed = true;
 		if (next->getOwner() == getPlayer())
 		{
-			int armiesToMove = std::min((int)numOfArmaies, current->numOfArmies);
-			if (armiesToMove != numOfArmaies)
-				numOfArmaies = armiesToMove;
-			current->removeTroops(numOfArmaies);
-			next->addTroops(numOfArmaies);
+			int armiesToMove = std::min((int)numOfArmies, current->numOfArmies);
+			if (armiesToMove != numOfArmies)
+				numOfArmies = armiesToMove;
+			current->removeTroops(numOfArmies);
+			next->addTroops(numOfArmies);
 
-			cout << "Advancing " << numOfArmaies << "Armies from " << cuurent->name << " to " << next->name << endl;
+			cout << "Advancing " << numOfArmies << "Armies from " << cuurent->name << " to " << next->name << endl;
 		}
 		else
 		{
@@ -247,12 +247,12 @@ bool Advance::execute()
 					next->removeTroops(1);
 				else if (rand() % 10 < 7)
 					current->removeTroops(1);
-					numOfArmaies--;
+					numOfArmies--;
 			}
 			if (next->numOfArmies == 0)
 			{
 				next->setOwner(player);
-				next->addTroops(numOfArmaies);
+				next->addTroops(numOfArmies);
 			}
 		}
 		return true;
@@ -399,7 +399,7 @@ string Blockade::get_Type()
 
 ostream& operator << (std::ostream& o, const Blockade& b)
 {
-	return o << " A blockde order has been issued";
+	return o << " A blockade order has been issued";
 }
 
 Airlift::Airlift():Order()
@@ -506,7 +506,7 @@ Negotiate::Negotiate(Player* current, Player* enemy) : Order(current)
 
 }
 
-Negotiate::Negotiate(const Negotiate& negotiatet) : Order(negotiate)
+Negotiate::Negotiate(const Negotiate& negotiate) : Order(negotiate)
 {
 	this->enemy = negotiate.enemy;
 }
@@ -536,7 +536,7 @@ bool Negotiate::execute()
 	if (validate())
 	{
 		executed = true;
-		cout << "Negtiate" << endl;
+		cout << "Negotiate" << endl;
 		return true;
 	}
 	return false;
@@ -544,7 +544,7 @@ bool Negotiate::execute()
 
 string Negotiate::get_type()
 {
-	return "negatiate";
+	return "negotiate";
 }
 
 ostream& operator << (std::ostream& o, const Negotiate& Negotiate)
