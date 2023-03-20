@@ -241,3 +241,105 @@ void GameEngine::mainGameLoop() {
 void GameEngine::setPlayerList(vector<Player*>* playerList) {
     this->playerList = *playerList;
 }
+// by dev
+Map map;
+void GameEngine::startupPhase() {
+    std::string command;
+    bool mapLoaded = false;
+    bool mapValidated = false;
+    bool playersAdded = false;
+
+    while (true) {
+        std::cout << "Enter a command to start the game:" << std::endl;
+        std::cin >> command;
+        if (command == "loadmap") {
+            std::string filename;
+            std::cin >> filename;
+            map = readfile(filename);
+            mapLoaded = true;
+        } else if (command == "validatemap") {
+            if (validate(map))
+	        {
+		        cout << "the map is valid!!" << endl;
+	        }
+        	else
+        	{
+        		cout << "the map is not valid!!" << endl;
+        	}
+        } else if (command == "addplayer") {
+            if (!mapValidated) {
+                std::cout << "Error: map not validated." << std::endl;
+            } else {
+                string playerName;
+                cin >> playerName;
+                addPlayer();
+                playersAdded = true;
+            }
+        } else if (command == "gamestart") {
+            if (!playersAdded) {
+                std::cout << "Error: players not added." << std::endl;
+            } else {
+                distributeTerritories();
+                determineOrderOfPlay();
+                giveInitialArmies();
+                drawInitialCards();
+                switchToPlayPhase();
+                break;
+            }
+        } else {
+            std::cout << "Invalid command." << std::endl;
+        }
+    }
+}
+void GameEngine::addPlayer() {
+    do{
+        cout << "Enter the number of players you want to have (2-6): ";
+        cin >> numOfPlayers; // add input validation
+        vector<Territory*> territory;
+        vector<Card*> card;
+        vector<Order*> order;
+        if(numOfPlayers > MAX_NUM_PLAYER || numOfPlayers < MIN_NUM_PLAYER){
+            cout << "Invalid input, please enter again!" << endl;
+        }
+    }while(numOfPlayers>MAX_NUM_PLAYER || numOfPlayers < MIN_NUM_PLAYER);
+
+    for(int i = 0; i < numOfPlayers; i++){
+        cout << "Please enter the player name for player ID: " << i + 1 << " Player: " << endl;
+        cin >> playerName;
+        playerlist.push_back(new Player(i, playerName));
+    }
+}
+void GameEngine::gameStart(){
+    //assign territory to players in round-robin fashion
+    cout << "\n The territories are assigned in the following order: " << endl;
+
+    for (int i = 0; i < map.territories.size(); i++) {
+        map.territories[i]->setPlayerID((playerlist.at(i % numOfPlayers))->getPID());
+        playerlist.at(i % numOfPlayers)->territories.push_back(map.territories[i]);
+        string territoryPlayer = playerlist.at(i % numOfPlayers)->getName();
+        string territoryName = map.territories[i]->getTName();
+
+        cout << setw(12) << "Territory: " << territoryName << ", owned by " <<  territoryPlayer << endl;
+    }
+    //initialize 50 armies to each player
+    for (int k = 0; k < numOfPlayers; k++) {
+        (playerlist.at(k))->setReinforcementPool(50);
+    }
+
+    //determine the order of play randomly
+    shufflePlayerList();
+
+    //initialize a card deck
+    cout << "<Initialize Deck>" << endl;
+    cout << "Deck size now is: " << endl;
+    cout << deck->getCards().size() << endl;
+    cout << "Draw 2 cards from deck:" << endl;
+    for(int i = 0; i < numOfPlayers; i++){
+        playerlist[i]->handCard.push_back(deck->draw());
+        playerlist[i]->handCard.push_back(deck->draw());
+    }
+
+    for(int i = 0; i < numOfPlayers; i++){
+        cout << *(playerlist[i]) << endl;
+    }
+}
