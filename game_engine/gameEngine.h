@@ -23,6 +23,11 @@ class GameEngine {
     void reinforcementPhase();
     void issueOrdersPhase();
     void executeOrdersPhase();
+    
+    //by dev
+    void startupPhase();
+    void addPlayer();
+    void gameStart();
 };
 
 std::string toLower(std::string);
