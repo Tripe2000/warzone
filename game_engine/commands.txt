@@ -3,5 +3,15 @@ loadmap world
 validatemap
 addplayer a
 addplayer b
-gamestart
-quit
+assigncountries
+issueorder
+issueorder
+endissueorders
+execorder
+execorder
+endexecorders
+issueorder
+endissueorders
+execorder
+win
+end

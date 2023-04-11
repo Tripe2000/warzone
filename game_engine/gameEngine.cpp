@@ -1,20 +1,19 @@
 #include "gameEngine.h"
-#include <iostream>
-#include <string>
 
 static int transitionTable[ROWS][COLUMNS] = {
   // load_map, validate_map, add_player, assign_countries, issue_order, end_issue_orders,
-  //          exec_order, end_exec_orders, win, play, end, error
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Error
-  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Start
-  { 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Map Loaded
-  { 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Map Validated
-  { 0, 0, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0 },   // Players Added
-  { 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0 },   // Assign Reinforcements
-  { 0, 0, 0, 0, 6, 7, 0, 0, 0, 0, 0, 0 },   // Issue Orders
-  { 0, 0, 0, 0, 0, 0, 7, 5, 8, 0, 0, 0 },   // Execute Orders
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9, 0 },   // Win
-  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }    // End
+  //          exec_order, end_exec_orders, win, play, end, error, tournament
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Error                    0
+  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10 },   // Start                    1
+  { 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Map Loaded               2
+  { 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Map Validated            3
+  { 0, 0, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // Players Added            4
+  { 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0 },   // Assign Reinforcements    5
+  { 0, 0, 0, 0, 6, 7, 0, 0, 0, 0, 0, 0, 0 },   // Issue Orders             6
+  { 0, 0, 0, 0, 0, 0, 7, 5, 8, 0, 0, 0, 0 },   // Execute Orders           7
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9, 0, 0 },   // Win                      8
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   // End                      9
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9, 0, 0 }    // Tournament               10
 };
 
 // Utility function to turn a string to lower case
@@ -45,6 +44,7 @@ int* commandIndex(std::string command) {
   else if(command == "win") return new int(WIN);
   else if(command == "play") return new int(PLAY);
   else if(command == "end") return new int(END);
+  else if(command == "tournament") return new int(TOURNAMENT);
   else return new int(ERROR);
 }
 
@@ -59,6 +59,7 @@ std::string GameEngine::getCurrentState() const {
   else if(*currentState == EXECUTE_ORDERS_STATE) return "Execute Orders";
   else if(*currentState == WIN_STATE) return "Win";
   else if(*currentState == END_STATE) return "End";
+  else if(*currentState == TOURNAMENT_STATE) return "Tournament";
   else return "Error";
 }
 
@@ -82,6 +83,22 @@ bool GameEngine::transitionState(std::string command) {
     // Change the current state if the command executes correctly
     if(executeCommand(cmd)) *currentState = attemptedTransition;
   }
+
+  // Deallocate cmd and remove dangling pointer
+  delete cmd; cmd = NULL;
+  return possible;
+}
+
+// Execute the given command if valid from the current state
+bool GameEngine::validateState(std::string command) {
+  // Get transition we are attempting to make from the table
+  int *cmd = commandIndex(command);
+  int attemptedTransition = transitionTable[*currentState][*cmd];
+
+  // Check if the transition does not lead to the error state
+  bool possible;
+  if(attemptedTransition != ERROR_STATE) possible = true;
+  else possible = false;
 
   // Deallocate cmd and remove dangling pointer
   delete cmd; cmd = NULL;
@@ -138,6 +155,10 @@ bool GameEngine::executeCommand(int *cmd) {
       std::cout << "End" << std::endl;
       return true;
 
+    case TOURNAMENT:
+      std::cout << "Tournament" << std::endl;
+      return true;
+
     default:
       std::cout << "Invalid command, nothing happened" << std::endl;
       return false;
@@ -150,7 +171,7 @@ GameEngine::GameEngine() {
 }
 
 // Copy constructor
-GameEngine::GameEngine (const GameEngine &obj) {
+GameEngine::GameEngine(const GameEngine &obj) {
   currentState = new int;
   *currentState = *obj.currentState;
 }

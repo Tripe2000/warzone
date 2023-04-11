@@ -3,6 +3,7 @@
 #include <list>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 class Command {
     public:

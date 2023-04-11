@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 class GameEngine {
     private:
@@ -12,6 +13,7 @@ class GameEngine {
     GameEngine(const GameEngine &obj);
     GameEngine& operator =(const GameEngine &obj);
     bool transitionState(std::string);
+    bool validateState(std::string command);
     std::string getCurrentState() const;
     int getState() const;
     friend std::ostream& operator <<(std::ostream &output, const GameEngine &obj);
@@ -33,6 +35,7 @@ const int WIN = 8;
 const int PLAY = 9;
 const int END = 10;
 const int ERROR = 11;
+const int TOURNAMENT = 12;
 
 // Available states
 const int ERROR_STATE = 0;
@@ -45,6 +48,7 @@ const int ISSUE_ORDERS_STATE = 6;
 const int EXECUTE_ORDERS_STATE = 7;
 const int WIN_STATE = 8;
 const int END_STATE = 9;
+const int TOURNAMENT_STATE = 10;
 
-const int ROWS = 10;
-const int COLUMNS = 12;
+const int ROWS = 11;
+const int COLUMNS = 13;

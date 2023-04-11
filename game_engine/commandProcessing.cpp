@@ -1,5 +1,4 @@
 #include "commandProcessing.h"
-#include <iostream>
 
 void Command::saveEffect(std::string& eff) { effect = new std::string(eff); }
 Command::Command(std::string cmd) { command = new std::string(cmd); effect = new std::string(""); }
@@ -58,14 +57,15 @@ std::ostream& operator <<(std::ostream &output, const CommandProcessor &obj) {
     output << *(obj.gameEngine) << "\nCommands: \n";
     std::list<Command>::iterator it;
     for(it = obj.commandList->begin(); it != obj.commandList->end(); ++it){
-        std::cout << *it << "\n-----\n";
+        std::cout << *it << "\n\n";
     }
+    std::cout << "\n-----\n" << std::endl;
     return output; 
 }
 std::string CommandProcessor::readCommand() {
     std::cout << "Enter command: ";
     std::string cmdString;
-    std::cin >> cmdString;
+    getline(std::cin, cmdString);
     return cmdString;
 }
 void CommandProcessor::saveCommand(std::string cmdString) {
@@ -77,21 +77,11 @@ void CommandProcessor::saveCommand(std::string cmdString) {
     commandList->push_back(*cmd);
 }
 bool CommandProcessor::validate(std::string& command) {
-  command = toLower(command);
-  int state = gameEngine->getState();
+    command = toLower(command);
 
-  if(command == "validatemap" && state == MAP_LOADED_STATE) return true;
-  else if(command == "gamestart" && state == PLAYERS_ADDED_STATE) return true;
-  else if(command == "replay" && state == WIN_STATE) return true;
-  else if(command == "quit" && state == WIN_STATE) return true;
-  else {
-    std::size_t pos = command.find(" ");
-    command = command.substr (0, pos);
-    if(command == "loadmap" && (state == START_STATE || state == MAP_LOADED_STATE)) return true;
-    else if(command == "addplayer" && (state == MAP_VALIDATED_STATE || state == PLAYERS_ADDED_STATE)) return true;
-  }
+    std::string str = command.substr(0, command.find(' '));
 
-  return false;
+    return gameEngine->transitionState(str);
 }
 
 FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
