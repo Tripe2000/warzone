@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
+#include <list>
 #include <iostream>
 
 class GameEngine {
     private:
     int *currentState;
-    bool executeCommand(int *cmd);
+    bool executeCommand(std::string command);
+    void startTournament(std::list<std::string> mapList, std::list<std::string> playerStrategiesList, int numberOfGames, int maxTurns);
 
     public:
     GameEngine();
@@ -13,7 +15,6 @@ class GameEngine {
     GameEngine(const GameEngine &obj);
     GameEngine& operator =(const GameEngine &obj);
     bool transitionState(std::string);
-    bool validateState(std::string command);
     std::string getCurrentState() const;
     int getState() const;
     friend std::ostream& operator <<(std::ostream &output, const GameEngine &obj);
@@ -21,6 +22,7 @@ class GameEngine {
 
 std::string toLower(std::string);
 int* commandIndex(std::string);
+bool isPlayer(std::string);
 
 // Available commands/transitions
 const int LOAD_MAP = 0;

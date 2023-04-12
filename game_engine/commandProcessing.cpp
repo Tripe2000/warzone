@@ -79,9 +79,7 @@ void CommandProcessor::saveCommand(std::string cmdString) {
 bool CommandProcessor::validate(std::string& command) {
     command = toLower(command);
 
-    std::string str = command.substr(0, command.find(' '));
-
-    return gameEngine->transitionState(str);
+    return gameEngine->transitionState(command);
 }
 
 FileCommandProcessorAdapter::~FileCommandProcessorAdapter() {
