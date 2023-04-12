@@ -8,6 +8,8 @@ class GameEngine {
     int *currentState;
     bool executeCommand(std::string command);
     void startTournament(std::list<std::string> mapList, std::list<std::string> playerStrategiesList, int numberOfGames, int maxTurns);
+    //By Nicolas
+    vector<Player*> playerList;
 
     public:
     GameEngine();
@@ -18,6 +20,17 @@ class GameEngine {
     std::string getCurrentState() const;
     int getState() const;
     friend std::ostream& operator <<(std::ostream &output, const GameEngine &obj);
+    
+    //By Nicolas 
+    void mainGameLoop();
+    void reinforcementPhase();
+    void issueOrdersPhase();
+    void executeOrdersPhase();
+    
+    //by dev
+    void startupPhase();
+    void addPlayer();
+    void gameStart();
 };
 
 std::string toLower(std::string);

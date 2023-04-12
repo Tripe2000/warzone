@@ -13,15 +13,15 @@ class Player {
 		//Copy constructor
 		Player(const Player& player);
 		//Parameterized constructor
-		Player(string* name, Hand* hand, vector<Territory*>* territory, vector<Order*>* order);
+		Player(string* name, Hand* hand, vector<Territory*>* territory, vector<Order*>* order, int*);
 		//Destructor
 		~Player();
 		//returns name of Player
 		string getName() const;
 		//toDefend method that returns a list of territories to defend
-		void toDefend() const;
+		vector<Territory*> toDefend() const;
 		//toDefend method that returns a list of territories to Attack
-		void toAttack() const;
+		vector<Territory*> toAttack() const;
 		//issueOrder method that creates an order object and adds it to list of orders
 		void issueOrder();
 		//assignment operator
@@ -30,6 +30,13 @@ class Player {
 		void setName(string* setName);
 		//stream insertion operator 
 		friend ostream& operator <<(ostream& os, const Player& other);
+
+		int getOrderSize() const;
+		int getTerritoryOwnedSize() const;
+		Order* getOrder(int index) const;
+		int getReinforcementPool() const;
+		void setReinforcementPool(int);
+
 
 	//all data members are pointer types
 	private:
@@ -42,5 +49,8 @@ class Player {
 		//list of orders of player
 		vector<Order*>* order;
 
+		int* reinforcementPool;
+
 };
+
 
