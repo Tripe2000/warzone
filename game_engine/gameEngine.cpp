@@ -106,7 +106,6 @@ bool GameEngine::executeCommand(std::string command) {
   std::list<std::string>::iterator l_front = arguments.begin();
 
   std::cout << "Running command ";
-  // MISSING: Add the actual execution of the given command instead of just printing it
   switch(*commandIndex(*l_front)) {
     case LOAD_MAP: {
       std::list<std::string> mapsToLoad;
@@ -289,7 +288,8 @@ void GameEngine::startTournament(std::list<std::string> mapList, std::list<std::
   } std::cout << std::endl;
 
   std::cout << "G: " << numberOfGames << std::endl;
-  std::cout << "D: " << maxTurns << std::endl << std::endl << std::endl;
+  std::cout << "D: " << maxTurns;
+  std::cout << std::endl << std::endl << std::endl;
 
   int count = 0;
   while(count < numberOfGames) {
@@ -309,8 +309,10 @@ void GameEngine::startTournament(std::list<std::string> mapList, std::list<std::
 
     transitionState("assigncountries");
 
-    std::cout << "Call mainloop()" << std::endl;
+    std::cout << "Call mainloop() until " << maxTurns << " turns" << std::endl;
+    // pretend the game ended
     *currentState = *commandIndex("win");
+
     transitionState("play");
     std::cout << std::endl << std::endl << "================" << std::endl << std::endl << std::endl;
     count++;
