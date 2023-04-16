@@ -310,6 +310,7 @@ void GameEngine::startTournament(std::list<std::string> mapList, std::list<std::
     transitionState("assigncountries");
 
     std::cout << "Call mainloop() until " << maxTurns << " turns" << std::endl;
+    std::cout << "Game won by: <placeholder> " << std::endl;
     // pretend the game ended
     *currentState = *commandIndex("win");
 
